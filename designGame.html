@@ -32,7 +32,6 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            border-radius:30px;
         }
 
         #eyes {
@@ -65,13 +64,15 @@
             transition: transform 0.2s;
         }
 
-        .rolling-number {
-            font-size: 3em;
+        .story {
+            font-size: 1.5em;
             display: none;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            text-align: center;
+            color: black;
         }
     </style>
 </head>
@@ -87,9 +88,29 @@
             </div>
         </div>
     </div>
-    <div class="rolling-number" id="rolling-number">1</div>
+    <div class="story" id="story">
+        <p id="fate"></p>
+        <p id="description"></p>
+    </div>
 
     <script>
+        const stories = [
+            { "fate": "最後一名 +1", "description": "其他動物好心拉了你一把" },
+            { "fate": "第一名 -1", "description": "嘿嘿，不能讓你走太快" },
+            { "fate": "第一名 +1", "description": "帶著所有人的希望向前衝呀！" },
+            { "fate": "所有動物 +1", "description": "幸運之神降臨<br>你們許願可以盡快過河" },
+            { "fate": "所有動物 +1", "description": "幸運之神降臨<br>你們許願可以盡快過河" },
+            { "fate": "所有動物 +1", "description": "幸運之神降臨<br>你們許願可以盡快過河" },
+            { "fate": "所有動物 -1", "description": "一陣狂風吹來<br>動物被吹得往後倒退" },
+            { "fate": "所有動物 -1", "description": "一陣狂風吹來<br>動物被吹得往後倒退" },
+            { "fate": "所有動物 -1", "description": "一陣狂風吹來<br>動物被吹得往後倒退" },
+            { "fate": "被咬的前後格動物 +1", "description": "他們拖住了鱷魚<br>快往前跑！" },
+            { "fate": "被咬的前後格動物 -1", "description": "鱷魚上岸亂咬<br>快後退躲開鱷魚" },
+            { "fate": "最前面的人回到原點", "description": "厄運之神跟你開了一個玩笑" },
+            { "fate": "第一名和最後一名互換位置", "description": "調皮的傳送門突然打開了" },
+            { "fate": "鱷魚游向翻轉", "description": "一陣地動山搖<br>河流突然改變了流向" }
+        ];
+
         let isRolling = false;
         let rollingInterval;
 
@@ -107,51 +128,49 @@
         }
 
         function startRolling() {
-            const rollingNumber = document.getElementById('rolling-number');
-            let duration = 5000;  // 持續時間為5秒
+            const storyElement = document.getElementById('story');
+            const fateElement = document.getElementById('fate');
+            const descriptionElement = document.getElementById('description');
+
+            let duration = 5000; // 持續時間為5秒
             let startTime = Date.now();
+            let index = Math.floor(Math.random() * stories.length);
+            fateElement.textContent = stories[index].fate;
+            descriptionElement.innerHTML = stories[index].description;
 
             rollingInterval = setInterval(() => {
                 let elapsed = Date.now() - startTime;
                 let progress = elapsed / duration;
-                let interval = Math.max(50, 500 * progress);  // 逐漸減慢滾動速度
-                rollingNumber.textContent = Math.floor(Math.random() * 10) + 1;
+                let interval = Math.max(50, 500 * progress); // 逐漸減慢滾動速度
 
                 if (elapsed >= duration) {
                     clearInterval(rollingInterval);
-                    rollingInterval = setInterval(() => {
-                        rollingNumber.textContent = Math.floor(Math.random() * 10) + 1;
-                    }, 500);
+                    storyElement.style.display = 'none';
+                    isRolling = false;
                 }
             }, 50);
-        }
+                    }
 
-        function stopRolling() {
-            clearInterval(rollingInterval);
-        }
+                    function toggleRolling() {
+                        const eyes = document.getElementById('eyes');
+                        const story = document.getElementById('story');
 
-        function toggleRolling() {
-            const eyes = document.getElementById('eyes');
-            const rollingNumber = document.getElementById('rolling-number');
+                        if (!isRolling) {
+                            isRolling = true;
+                            eyes.style.display = 'none';
+                            story.style.display = 'block';
+                            startRolling();
+                        } else {
+                            isRolling = false;
+                            story.style.display = 'none';
+                            eyes.style.display = 'flex';
+                            clearInterval(rollingInterval);
+                        }
+                    }
 
-            if (!isRolling) {
-                isRolling = true;
-                eyes.style.display = 'none';
-                rollingNumber.style.display = 'block';
-                startRolling();
-                setTimeout(() => {
-                    stopRolling();
-                }, 5000);  // 滾動5秒
-            } else {
-                isRolling = false;
-                rollingNumber.style.display = 'none';
-                eyes.style.display = 'flex';
-            }
-        }
-
-        document.body.addEventListener('click', toggleRolling);
-        moveEyes();
-    </script>
-</body>
-
-</html>
+                    document.body.addEventListener('click', toggleRolling);
+                    moveEyes();
+                </script>
+    </body>
+    
+    </html>
