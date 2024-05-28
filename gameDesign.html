@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>動態眼睛網頁</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: url("螢幕擷取畫面 2024-05-28 160614.jpg") no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            cursor: pointer;
+            /* 添加指針樣式以表示可點擊 */
+        }
+
+        #eyes {
+            position: relative;
+            width: 350px;
+            height: 200px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .eye {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: white;
+            border: 5px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .pupil {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: black;
+            transition: transform 0.2s;
+        }
+
+        .rolling-number {
+            font-size: 3em;
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="eyes">
+        <div id="left-eye" class="eye">
+            <div id="left-pupil" class="pupil"></div>
+        </div>
+        <div id="right-eye" class="eye">
+            <div id="right-pupil" class="pupil"></div>
+        </div>
+    </div>
+    <div class="rolling-number" id="rolling-number">1</div>
+
+    <script>
+        let isRolling = false;
+        let rollingInterval;
+
+        function moveEyes() {
+            const leftPupil = document.getElementById('left-pupil');
+            const rightPupil = document.getElementById('right-pupil');
+            setInterval(() => {
+                const angle = Math.random() * 2 * Math.PI;
+                const radius = 30 + Math.random() * 30;
+                const x = Math.cos(angle) * radius;
+                const y = Math.sin(angle) * radius;
+                leftPupil.style.transform = `translate(${x}px, ${y}px)`;
+                rightPupil.style.transform = `translate(${x}px, ${y}px)`;
+            }, 2000);
+        }
+
+        function startRolling() {
+            const rollingNumber = document.getElementById('rolling-number');
+            let duration = 5000;  // 持續時間為5秒
+            let startTime = Date.now();
+
+            rollingInterval = setInterval(() => {
+                let elapsed = Date.now() - startTime;
+                let progress = elapsed / duration;
+                let interval = Math.max(50, 500 * progress);  // 逐漸減慢滾動速度
+                rollingNumber.textContent = Math.floor(Math.random() * 10) + 1;
+
+                if (elapsed >= duration) {
+                    clearInterval(rollingInterval);
+                    rollingInterval = setInterval(() => {
+                        rollingNumber.textContent = Math.floor(Math.random() * 10) + 1;
+                    }, 500);
+                }
+            }, 50);
+        }
+
+        function stopRolling() {
+            clearInterval(rollingInterval);
+        }
+
+        function toggleRolling() {
+            const eyes = document.getElementById('eyes');
+            const rollingNumber = document.getElementById('rolling-number');
+
+            if (!isRolling) {
+                isRolling = true;
+                eyes.style.display = 'none';
+                rollingNumber.style.display = 'block';
+                startRolling();
+                setTimeout(() => {
+                    stopRolling();
+                }, 5000);  // 滾動5秒
+            } else {
+                isRolling = false;
+                rollingNumber.style.display = 'none';
+                eyes.style.display = 'flex';
+            }
+        }
+
+        document.body.addEventListener('click', toggleRolling);
+        moveEyes();
+    </script>
+</body>
+
+</html>
