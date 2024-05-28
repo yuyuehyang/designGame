@@ -80,7 +80,7 @@
         }
         #description {
             font-size: 60px; /* 修改 description 字體大小 */
-            margin-top: 60px; /* 與 fate 之間的上間距 */
+            margin-top: 40px; /* 與 fate 之間的上間距 */
             margin-bottom: 60px; /* 與 fate 之間的下間距 */
         }
     </style>
@@ -173,6 +173,11 @@
                 }
             }
             document.body.addEventListener('click', toggleRolling);
+            document.body.addEventListener('keydown', (event) => {
+                    if (event.code === 'Space') {
+                        toggleRolling();
+                    }
+                });
             moveEyes();
         </script>
 </body>
