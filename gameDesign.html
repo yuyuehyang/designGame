@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-image: url("Data/BG.jpg") ;
+            background-image: url("Data/BG.jpg");
             background-size: cover;
             display: flex;
             justify-content: center;
@@ -18,6 +18,20 @@
             height: 100vh;
             cursor: pointer;
             /* 添加指針樣式以表示可點擊 */
+        }
+
+        #background {
+            position: absolute;
+            width: 1437px;
+            height: 841px;
+            background-color: rgba(255, 255, 255, 0.9);
+            /* 白色底，透明度90% */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         #eyes {
@@ -62,12 +76,14 @@
 </head>
 
 <body>
-    <div id="eyes">
-        <div id="left-eye" class="eye">
-            <div id="left-pupil" class="pupil"></div>
-        </div>
-        <div id="right-eye" class="eye">
-            <div id="right-pupil" class="pupil"></div>
+    <div id="background">
+        <div id="eyes">
+            <div id="left-eye" class="eye">
+                <div id="left-pupil" class="pupil"></div>
+            </div>
+            <div id="right-eye" class="eye">
+                <div id="right-pupil" class="pupil"></div>
+            </div>
         </div>
     </div>
     <div class="rolling-number" id="rolling-number">1</div>
