@@ -137,43 +137,43 @@
             const descriptionElement = document.getElementById('description');
 
             let duration = 5000; // 持續時間為5秒
-              let startTime = Date.now();
-                    let index = Math.floor(Math.random() * stories.length);
-                    fateElement.textContent = stories[index].fate;
-                    descriptionElement.innerHTML = stories[index].description;
+            let startTime = Date.now();
+            let index = Math.floor(Math.random() * stories.length);
+            fateElement.textContent = stories[index].fate;
+            descriptionElement.innerHTML = stories[index].description;
 
-                    rollingInterval = setInterval(() => {
-                        let elapsed = Date.now() - startTime;
-                        let progress = elapsed / duration;
-                        let interval = Math.max(50, 500 * progress); // 逐漸減慢滾動速度
+            rollingInterval = setInterval(() => {
+                let elapsed = Date.now() - startTime;
+                let progress = elapsed / duration;
+                let interval = Math.max(50, 500 * progress); // 逐漸減慢滾動速度
 
-                        if (elapsed >= duration) {
-                            clearInterval(rollingInterval);
-                            isRolling = false;
-                        }
-                    }, 50);
+                if (elapsed >= duration) {
+                    clearInterval(rollingInterval);
+                    isRolling = false;
                 }
+            }, 50);
+        }
 
-                function toggleRolling() {
-                    const eyes = document.getElementById('eyes');
-                    const story = document.getElementById('story');
+        function toggleRolling() {
+            const eyes = document.getElementById('eyes');
+            const story = document.getElementById('story');
 
-                    if (!isRolling) {
-                        isRolling = true;
-                        eyes.style.display = 'none';
-                        story.style.display = 'block';
-                        startRolling();
-                    } else {
-                        isRolling = false;
-                        story.style.display = 'none';
-                        eyes.style.display = 'flex';
-                        clearInterval(rollingInterval);
-                    }
-                }
+            if (!isRolling) {
+                isRolling = true;
+                eyes.style.display = 'none';
+                story.style.display = 'block';
+                startRolling();
+            } else {
+                isRolling = false;
+                story.style.display = 'none';
+                eyes.style.display = 'flex';
+                clearInterval(rollingInterval);
+            }
+        }
 
-                document.body.addEventListener('click', toggleRolling);
-                moveEyes();
-            </script>
+        document.body.addEventListener('click', toggleRolling);
+        moveEyes();
+    </script>
     </body>
     
     </html>
